@@ -16,10 +16,10 @@ function WusaResultMessage($ResultCode) {
 }
 
 Write-Output "Uninstalling KB5000802..."
-$TwoUpdateResult = Start-Process -FilePath "wusa.exe" -ArgumentList "/uninstall /kb:5000802 /norestart /quiet" -Verb RunAs -Wait -PassThru
+$TwoUpdateResult = Start-Process -FilePath "wusa.exe" -ArgumentList "/uninstall /kb:5000802 /norestart" -Verb RunAs -Wait -PassThru
 Write-Output (WusaResultMessage -ResultCode $TwoUpdateResult.ExitCode)
 Write-Output "Uninstalling KB5000808..."
-$EightUpdateResult = Start-Process -FilePath "wusa.exe" -ArgumentList "/uninstall /kb:5000808 /norestart /quiet" -Verb RunAs -Wait -PassThru
+$EightUpdateResult = Start-Process -FilePath "wusa.exe" -ArgumentList "/uninstall /kb:5000808 /norestart" -Verb RunAs -Wait -PassThru
 Write-Output (WusaResultMessage -ResultCode $EightUpdateResult.ExitCode)
 
 #Stops Windows Update and disables it on Startup
@@ -41,6 +41,9 @@ $trigger = New-ScheduledTaskTrigger -at $newdate -Once
 
 #Creates the New Scheduled Task
 Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "PauseWinUpdates" -Description "Powershell script to pause Windows Updates until a certain date that is specified by the user"
+
+Write-Host -NoNewLine 'Press any key to continue...';
+$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
 
 Restart-Computer -Confirm
 
