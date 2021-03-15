@@ -3,8 +3,6 @@
     exit;
 }
 
-Set-ExecutionPolicy Bypass -Scope CurrentUser
-
 $UpdatePauseDayInterval = 7
 
 function WusaResultMessage($ResultCode) {
@@ -21,6 +19,12 @@ Write-Output (WusaResultMessage -ResultCode $TwoUpdateResult.ExitCode)
 Write-Output "Uninstalling KB5000808..."
 $EightUpdateResult = Start-Process -FilePath "wusa.exe" -ArgumentList "/uninstall /kb:5000808 /norestart" -Verb RunAs -Wait -PassThru
 Write-Output (WusaResultMessage -ResultCode $EightUpdateResult.ExitCode)
+Write-Output "Uninstalling KB5000809..."
+$NineUpdateResult = Start-Process -FilePath "wusa.exe" -ArgumentList "/uninstall /kb:5000809 /norestart" -Verb RunAs -Wait -PassThru
+Write-Output (WusaResultMessage -ResultCode $NineUpdateResult.ExitCode)
+Write-Output "Uninstalling KB5000822..."
+$TwentyTwoUpdateResult = Start-Process -FilePath "wusa.exe" -ArgumentList "/uninstall /kb:5000822 /norestart" -Verb RunAs -Wait -PassThru
+Write-Output (WusaResultMessage -ResultCode $TwentyTwoUpdateResult.ExitCode)
 
 #Stops Windows Update and disables it on Startup
 Stop-Service wuauserv
